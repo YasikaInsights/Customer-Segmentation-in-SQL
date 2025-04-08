@@ -5,4 +5,4 @@ Customer segmentation based on demographics, customer behavior and business requ
 To ensure that marketing efforts are backed by certain trends rather than assumptions analyzing marketing data can have benefits for data-driven decision making, segmentation and marketing, campaigns, budget allocation, real-time monitoring and improve customer experience.
 This analysis can be a great turn over for ROI can lead to higher conversion rates and customer retention.
 Predictive analytics can boost businesses to focus on future trends by optimizing stock levels and can reduce wastage.
-![image](https://github.com/user-attachments/assets/1afdcc52-dcf0-4a45-a376-6db65cec3fd9)
+
