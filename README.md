@@ -1,4 +1,4 @@
-Customer Segmentation
+Customer Segmentation-SQL
 This analysis will provide valuable insights into customer segments, helping businesses design targeted marketing campaigns and optimize customer engagement strategies. The results, including cluster summaries and visualizations, will be presented in a clear and concise manner to facilitate decision-making.
 The primary focus of this analysis is on KMeans clustering, which will be employed to segment the customers into distinct groups based on the similarities between their Age and Spending Score. The optimal number of clusters will be determined using the Elbow Method. The clusters will then be analyzed and visualized to provide a clear understanding of customer behavior and segment characteristics
 <img width="1326" height="770" alt="image" src="https://github.com/user-attachments/assets/c0b877d4-27fc-4270-9b23-cffc5c848c7c" />
@@ -10,6 +10,7 @@ K-means Clustering Visualization:
 <img width="1335" height="482" alt="image" src="https://github.com/user-attachments/assets/e3f04229-f6e9-46b7-8274-07efe44b0a86" />
 K-means Clustering Summery:
 <img width="1073" height="427" alt="image" src="https://github.com/user-attachments/assets/7fbc0b1b-8510-479e-b257-b4b7448e3c40" />
+
 Conclusion:
 In this analysis, we explored and segmented customers based on their Age and Spending Score using KMeans clustering. The primary objectives were to uncover patterns and relationships in the data, visualize customer behavior, and group similar customers into distinct segments.
 Data Insights:
@@ -26,4 +27,4 @@ Summary and Next Steps:
 The customer segments derived from this analysis provide a solid foundation for further segmentation and deeper exploration. Future work could include incorporating additional features (e.g., Family size, Profession ) to refine the segmentation and gain even more actionable insights.
 The results of this analysis can be used to inform decisions in marketing, customer service, and product development.
 In conclusion, this analysis has successfully segmented customers into meaningful groups, providing a deeper understanding of their characteristics and behaviors. These insights are valuable for businesses seeking to improve their customer engagement strategies and optimize resource allocation.
-<img width="3462" height="606" alt="image" src="https://github.com/user-attachments/assets/93180195-822a-4fde-ad8a-afd300e70063" />
+
