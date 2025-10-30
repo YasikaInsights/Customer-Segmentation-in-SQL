@@ -1,74 +1,75 @@
-CREATE DATABASE RetailMarketing;
-USE RetailMarketing;
+Code :
+!pip install pandas matplotlib seaborn scikit-learn #package installed
+import pandas as pd          #Libraries loaded
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.preprocessing import StandardScaler
+from sklearn.cluster import KMeans
+from sklearn.decomposition import PCA
+test_data = pd.read_csv("test.csv")          #datasets loaded
+train_data = pd.read_csv("train.csv")
+print(test_data.info())
+print(test_data.describe())
+print(train_data.info())
+print(train_data.describe())
+print(test_data.isnull().sum())   #missing values checked
+print(test_data.columns.tolist())
+test_data.columns = test_data.columns.str.strip()
+lt.figure(figsize=(8, 5))                 #Distribution plots
+sns.histplot(test_data['Age'], kde=True, color='orange')
+plt.title("Age Distribution")
+plt.show()
 
-SELECT* FROM customer_Data3;  
-EXEC sp_help 'customer_Data3';
-SELECT COUNT(*) AS TotalRows FROM customer_Data3; 
+plt.figure(figsize=(8, 5))
+sns.histplot(test_data['Spending_Score'], kde=True, color='green')
+plt.title("Spending Score Distribution")
+plt.show()
+sns.countplot(data=test_data, x='Gender', palette='pastel') #Gender Distribution
+plt.title("Gender Distribution")
+plt.show()
+sns.pairplot(test_data[['Age', 'Spending_Score']])  #Pairplot to see relationships
+plt.show()
+features = test_data[['Age', 'Spending_Score']]
+print(test_data.dtypes)
+from sklearn.preprocessing import LabelEncoder
+le = LabelEncoder()
+for col in test_data.select_dtypes(include='object').columns:
+    test_data[col] = le.fit_transform(test_data[col])
+from sklearn.preprocessing import StandardScaler
+features = test_data.select_dtypes(include='number')
+scaler = StandardScaler()
+scaled_features = scaler.fit_transform(features)
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+import seaborn as sns
+features_clean = features.dropna()
+scaled_features = scaler.fit_transform(features_clean)
+from sklearn.cluster import KMeans
+wcss = []
+for i in range(1, 11):
+    kmeans = KMeans(n_clusters=i, random_state=42)
+    kmeans.fit(scaled_features)
+    wcss.append(kmeans.inertia_)
+plt.plot(range(1, 11), wcss, marker='o')   # Plot elbow graph
+plt.title('Elbow Method')
+plt.xlabel('Number of clusters')
+plt.ylabel('WCSS')
+plt.grid(True)
+plt.show()
+print(test_data.shape[0])  # Number of rows in test_data
+print(scaled_features.shape[0]) 
+scaled_features = scaler.fit_transform(test_data[['Age', 'Spending_Score']]) 
 
-DROP TABLE IF EXISTS customer_Data3;
+assert scaled_features.shape[0] == test_data.shape[0], "Mismatch in rows"
+test_data_subset = test_data.iloc[:scaled_features.shape[0]]
+test_data_subset['Cluster'] = kmeans.fit_predict(scaled_features)
+kmeans = KMeans(n_clusters=4, random_state=42) # Let's assume optimal clusters = 4
+test_data['Cluster'] = kmeans.fit_predict(scaled_features)
+plt.figure(figsize=(8, 5)) # Visualization of clusters
+sns.scatterplot(data=test_data, x='Age', y='Spending_Score', hue='Cluster', palette='tab10')
+plt.title('Customer Segments')
+plt.show()
+summary = test_data.groupby('Cluster').mean() # Summary by cluster
+print(summary)
 
-SELECT* FROM Product_Data3;  
-EXEC sp_help 'Product_Data3';
-SELECT COUNT(*) AS TotalRows FROM Product_Data3; 
-
-DROP TABLE IF EXISTS Product_Data3;
-
-SELECT* FROM transaction_data3;  
-EXEC sp_help 'transaction_data3';
-SELECT COUNT(*) AS TotalRows FROM transaction_data3; 
-
-DROP TABLE IF EXISTS transaction_data3;
-
---------------------------------------------------------------Basic Stats---------------------------------------------------------------------------------------------------
-
---------------------------------------Customer Data--------------------------------------------
-SELECT COLUMN_NAME                   ----(To check column names)-------
-FROM INFORMATION_SCHEMA.COLUMNS 
-WHERE TABLE_NAME = 'customer_Data3';
-SELECT COUNT(*) AS Total_Customers FROM customer_data3;
-SELECT MIN(Cust_Age) AS Min_Age, MAX(Cust_Age) AS Max_Age FROM customer_Data3;
-SELECT Cust_Gender, COUNT(*) FROM customer_Data3 GROUP BY Cust_Gender;
-SELECT Cust_Gender, COUNT(DISTINCT Cust_ID) AS Customer_Count
-FROM customer_Data3
-GROUP BY Cust_Gender;
-
-
---------------------------------------Product Data----------------------------------------
-SELECT COLUMN_NAME                      -----(To check column names)-------
-FROM INFORMATION_SCHEMA.COLUMNS 
-WHERE TABLE_NAME = 'Product_Data3';
-SELECT COUNT(*) AS Total_Products FROM Product_Data3; 
-SELECT MIN(Prdct_Amt) AS Min_Amt, MAX(Prdct_Amt) AS Max_Amt, AVG(Prdct_Amt) AS Avg_Amt FROM Product_Data3;
-SELECT Prdct_Category, COUNT(*) FROM Product_Data3 GROUP BY Prdct_Category;
-
--------------------------------------Transaction Data-------------------------------------------------
-SELECT COLUMN_NAME                   ----(To check column names)-------
-FROM INFORMATION_SCHEMA.COLUMNS 
-WHERE TABLE_NAME = 'transaction_Data3';
-SELECT COUNT(*) AS Total_Transactions FROM transaction_Data3;
-SELECT MIN(Date) AS First_Tarnsaction, MAX(Date) AS Last_Transaction FROM transaction_Data3;
-SELECT Prdct_ID, SUM(Prch_Quantity) AS Total_Quantity_Sold FROM transaction_Data3 GROUP BY Prdct_ID;
-SELECT Prdct_ID, COUNT(*) AS Transaction_Count FROM transaction_Data3 GROUP BY Prdct_ID;
-
-
----------------------------------------------------------Developing Marketing Data----------------------------------
-SELECT t.Prdct_ID, p.Prdct_Category, SUM(t.Prch_Quantity) AS Total_Sales, p.[Prdct_Amt]     -----------Joined Transaction data with Product data to get sales per product---------
-FROM transaction_Data3 t
-JOIN Product_data3 p ON t.Prdct_ID = p.Prdct_ID
-GROUP BY t.Prdct_ID, p.Prdct_Category, p.[Prdct_Amt];
-
-
-SELECT c.Cust_ID, c.Cust_Gender, COUNT(t.Trnst_ID) AS Total_Sales FROM transaction_Data3 t  -----------Joined Transaction data with Customer data to know sales per customer---------
-JOIN customer_Data3 c ON t.Cust_ID = c.Cust_ID
-GROUP BY c.Cust_ID, c.Cust_Gender;
-
-
-SELECT c.Cust_ID, c.Cust_Age, c.Cust_Gender, ------------------------------------Final Merging------------------------------
-       SUM(t.Prch_Quantity) AS Total_Products_Bought, 
-       COUNT(t.Trnst_ID) AS Total_Transactions, 
-       SUM(t.Prch_Quantity * p.[Prdct_Amt]) AS Total_Spending
-FROM customer_data3 c
-JOIN transaction_data3 t ON c.Cust_ID = t.Cust_ID
-JOIN Product_data3 p ON t.Prdct_ID = p.Prdct_ID
-GROUP BY c.Cust_ID, c.Cust_Age, c.Cust_Gender;
-
+summary.to_csv("cluster_summary.csv")
