@@ -1,6 +1,7 @@
 Customer Segmentation-SQL
 This analysis will provide valuable insights into customer segments, helping businesses design targeted marketing campaigns and optimize customer engagement strategies. The results, including cluster summaries and visualizations, will be presented in a clear and concise manner to facilitate decision-making.
 The primary focus of this analysis is on KMeans clustering, which will be employed to segment the customers into distinct groups based on the similarities between their Age and Spending Score. The optimal number of clusters will be determined using the Elbow Method. The clusters will then be analyzed and visualized to provide a clear understanding of customer behavior and segment characteristics
+
 <img width="1326" height="770" alt="image" src="https://github.com/user-attachments/assets/c0b877d4-27fc-4270-9b23-cffc5c848c7c" />
 <img width="705" height="448" alt="image" src="https://github.com/user-attachments/assets/40a10db5-d174-42c0-91a2-1be7bc09f8f3" />
 <img width="681" height="477" alt="image" src="https://github.com/user-attachments/assets/48b72e98-a5c9-4a9d-804e-2eb4a76027ae" />
